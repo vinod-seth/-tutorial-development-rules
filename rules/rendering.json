@@ -1,0 +1,50 @@
+{
+  "category": "rendering",
+  "description": "Rules for rendering and UX behavior of tutorial content in the coaching portal.",
+  "rules": [
+    {
+      "id": "rendering-001",
+      "title": "Click-to-reveal must use details tag",
+      "category": "rendering",
+      "scope": ["*.mdx"],
+      "severity": "error",
+      "description": "Answers and explanations in quizzes or exercise sections must be wrapped in a `<details>` tag with a `<summary>` element. The summary text must start with an icon like '🔑 Click to Reveal Answer & Explanation'. This ensures answers are hidden by default and only shown when the user explicitly clicks.",
+      "detection": {
+        "type": "regex",
+        "pattern": "<details>\\s*<summary>.*🔑 Click to Reveal"
+      },
+      "examples": {
+        "bad": "🔑 Click to Reveal Answer & Explanation\n\nThe correct answer is A because...",
+        "good": "<details>\n<summary>🔑 Click to Reveal Answer & Explanation</summary>\n\nThe correct answer is **A** because...\n</details>"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["ux", "quiz", "collapsible"],
+      "source": "human",
+      "createdAt": "2026-05-27T17:00:00Z",
+      "createdBy": "vinod"
+    },
+    {
+      "id": "rendering-002",
+      "title": "Tables inside blockquotes must render correctly",
+      "category": "rendering",
+      "scope": ["*.mdx"],
+      "severity": "error",
+      "description": "Markdown tables nested inside blockquotes (e.g. `> | cell |`) must render as actual HTML tables rather than being rendered as raw text with pipe characters. Blockquote indicators `>` must be placed correctly on every line, and the parser/renderer must parse markdown formatting inside the blockquote block.",
+      "detection": {
+        "type": "semantic",
+        "pattern": "Ensures markdown tables inside blockquotes produce HTML <table> instead of raw text"
+      },
+      "examples": {
+        "bad": "> 📍 Lesson Roadmap:\n> | Section | Audience |\n> |:---|:---|\n> (Raw text rendering with pipes)",
+        "good": "> 📍 Lesson Roadmap:\n> \n> | Section | Audience |\n> |:---|:---|\n> | 1. Tokens | 🟢 Everyone |"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["ux", "markdown", "parser"],
+      "source": "human",
+      "createdAt": "2026-05-27T17:00:00Z",
+      "createdBy": "vinod"
+    }
+  ]
+}

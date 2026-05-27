@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "autoFixSeverity": ["error"],
+  "requireApprovalFor": ["suggestion", "warning"],
+  "ignorePaths": ["node_modules/**", "dist/**", ".git/**", "history/**"],
+  "agentModel": "gemini-2.5-pro",
+  "maxProposedRulesPerSession": 5,
+  "ruleFiles": [
+    "rules/content.json",
+    "rules/rendering.json",
+    "rules/code.json"
+  ]
+}

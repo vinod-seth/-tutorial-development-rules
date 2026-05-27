@@ -1,0 +1,94 @@
+{
+  "category": "content",
+  "description": "Rules for MDX tutorial content quality, structure, and consistency.",
+  "rules": [
+    {
+      "id": "content-001",
+      "title": "No skip-ahead directives in body",
+      "category": "content",
+      "scope": ["*.mdx"],
+      "severity": "error",
+      "description": "Do not include 'Non-technical readers: skip ahead...' text in lesson body. The 🟢/🔷 badges on section headings already communicate audience clearly in mixed tutorials. Skip-ahead text is redundant clutter.",
+      "detection": {
+        "type": "regex",
+        "pattern": "\\*Non-technical readers:.*\\*"
+      },
+      "examples": {
+        "bad": "*Non-technical readers: skip ahead to the [Concept Check](#concept-check) below.*",
+        "good": "(Omit the line entirely. The 🔷 badge on the heading is sufficient in mixed-audience tracks.)"
+      },
+      "autoFixable": true,
+      "fixAction": "delete_line",
+      "tags": ["audience-track", "readability", "clutter"],
+      "source": "human",
+      "createdAt": "2026-05-27T15:00:00Z",
+      "createdBy": "vinod"
+    },
+    {
+      "id": "content-002",
+      "title": "Audience badges on section headings (mixed-audience only)",
+      "category": "content",
+      "scope": ["*.mdx"],
+      "severity": "warning",
+      "description": "For mixed-audience lessons, every ## section heading must start with either 🟢 (Core — for everyone) or 🔷 (Technical — for developers). This rule does NOT apply to pure-technical lessons where no audience distinction is required.",
+      "detection": {
+        "type": "regex",
+        "pattern": "^## (?!🟢|🔷)"
+      },
+      "examples": {
+        "bad": "## 3. System Prompt Syntax Across Models (in mixed-audience lesson)",
+        "good": "## 🔷 3. System Prompt Syntax Across Models (or no badge if pure-technical lesson)"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["audience-track", "heading-structure"],
+      "source": "human",
+      "createdAt": "2026-05-27T14:00:00Z",
+      "createdBy": "vinod"
+    },
+    {
+      "id": "content-003",
+      "title": "Lesson roadmap table required (mixed-audience only)",
+      "category": "content",
+      "scope": ["tutorial/*.mdx"],
+      "severity": "warning",
+      "description": "Each mixed-audience lesson file must have a '📍 Lesson Roadmap' blockquote near the top containing a table mapping sections to audience. This is omitted for pure-technical lessons.",
+      "detection": {
+        "type": "regex",
+        "pattern": "> \\*\\*📍 Lesson Roadmap"
+      },
+      "examples": {
+        "bad": "(No roadmap in a mixed-audience lesson)",
+        "good": "> **📍 Lesson Roadmap:**\n> | Section | Audience |\n> |:---|:---|\n> | 1. Topic Name | 🟢 Everyone |\n> | 2. API Details | 🔷 Technical |"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["structure", "navigation", "audience-track"],
+      "source": "human",
+      "createdAt": "2026-05-27T14:00:00Z",
+      "createdBy": "vinod"
+    },
+    {
+      "id": "content-004",
+      "title": "Concept Check must use checkbox syntax",
+      "category": "content",
+      "scope": ["tutorial/*.mdx"],
+      "severity": "error",
+      "description": "Quiz options in Concept Check sections must use the checkbox syntax `* [ ]` for wrong answers and `* [x]` for the correct answer. Do NOT use plain bullet points for quiz options.",
+      "detection": {
+        "type": "semantic",
+        "pattern": "Lines under a '## Concept Check' heading should match `* \\[[ x]\\]` pattern"
+      },
+      "examples": {
+        "bad": "* **A)** Temperature = 0.0\n* **B)** Temperature = 1.5",
+        "good": "* [ ] **A)** Temperature = 0.0\n* [x] **B)** Temperature = 1.5"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["quiz", "interactive", "format"],
+      "source": "human",
+      "createdAt": "2026-05-27T17:00:00Z",
+      "createdBy": "vinod"
+    }
+  ]
+}

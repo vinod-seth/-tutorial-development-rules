@@ -1,0 +1,50 @@
+{
+  "category": "code",
+  "description": "Rules for code quality and custom component usage in the coaching portal frontend.",
+  "rules": [
+    {
+      "id": "code-001",
+      "title": "MarkdownRenderer must handle details/summary tags",
+      "category": "code",
+      "scope": ["components/MarkdownRenderer.tsx", "components/MarkdownRenderer.ts"],
+      "severity": "error",
+      "description": "The MarkdownRenderer component must map `<details>` and `<summary>` elements to custom interactive collapsible components (e.g. CollapsibleDetails) or native HTML details elements rather than stripping them or rendering them as plain text.",
+      "detection": {
+        "type": "semantic",
+        "pattern": "Verify that MarkdownRenderer handles details and summary HTML tags"
+      },
+      "examples": {
+        "bad": "const MarkdownRenderer = ({ content }) => { return <ReactMarkdown>{content}</ReactMarkdown> } // missing custom component mapping for details",
+        "good": "const components = {\n  details: ({ children }) => <CollapsibleDetails>{children}</CollapsibleDetails>,\n  summary: ({ children }) => <summary className=\"cursor-pointer font-bold\">{children}</summary>\n};"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["frontend", "components", "parser"],
+      "source": "human",
+      "createdAt": "2026-05-27T17:00:00Z",
+      "createdBy": "vinod"
+    },
+    {
+      "id": "code-002",
+      "title": "Quiz checkboxes must render as InteractiveQuiz",
+      "category": "code",
+      "scope": ["components/MarkdownRenderer.tsx"],
+      "severity": "error",
+      "description": "Any list items matching checkbox format `* [ ]` or `* [x]` inside a Concept Check section should be intercepted and rendered using a custom interactive `InteractiveQuiz` component with dynamic state (selection, feedback, reward messages, retry) instead of rendering as standard browser list items.",
+      "detection": {
+        "type": "semantic",
+        "pattern": "Verify that MarkdownRenderer intercept list items with [ ] or [x] for quizzes"
+      },
+      "examples": {
+        "bad": "li: ({ children }) => <li>{children}</li> // renders static checkboxes",
+        "good": "li: ({ children, checked }) => { if (isInsideQuiz) { return <InteractiveQuizOption checked={checked}>{children}</InteractiveQuizOption>; } return <li>{children}</li> }"
+      },
+      "autoFixable": false,
+      "fixAction": null,
+      "tags": ["frontend", "components", "quiz", "interactive"],
+      "source": "human",
+      "createdAt": "2026-05-27T17:00:00Z",
+      "createdBy": "vinod"
+    }
+  ]
+}
